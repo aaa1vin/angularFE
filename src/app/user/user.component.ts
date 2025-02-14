@@ -1,7 +1,18 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { DUMMY_USERS } from '../dummy-users';
+// import { DUMMY_USERS } from '../dummy-users';
 
-const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length)
+// const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length)
+// type User = {
+//   id: string;
+//   avatar: string;
+//   name: string;
+// }
+
+interface User {
+  id: string;
+  avatar: string;
+  name: string;
+}
 
 @Component({
   selector: 'app-user',
@@ -10,10 +21,15 @@ const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length)
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  @Input({ required: true }) avatar !: string;
-  @Input({ required: true }) name !: string;
-  @Input({ required: true }) id !: string;
-  @Output() select = new EventEmitter();
+  //2. @Input({ required: true }) avatar !: string;
+  //2. @Input({ required: true }) name !: string;
+  //2. @Input({ required: true }) id !: string;
+
+  // 2. Create an object instead of declaring an instance
+  @Input({ required: true }) user!: User;
+  @Output() select = new EventEmitter<string>();
+  // 1.  select = output<string>();
+
   // selectedUser = signal(DUMMY_USERS[randomIndex]);
   // imagePath = computed(() => 'assets/users/' + this.selectedUser().avatar)
 
@@ -27,11 +43,13 @@ export class UserComponent {
 
 
   get imagePath() {
-    return 'assets/users/' + this.avatar;
+    return 'assets/users/' + this.user.avatar;
   }
 
   onSelectUser(id : string) {
-    this.select.emit(this.id);
+    this.select.emit(this.user.id);
+
+    // 1. if using the latter method will be: this.select.emit();
 
     // const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length)
     // this.selectedUser.set(DUMMY_USERS[randomIndex]);
