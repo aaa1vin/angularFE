@@ -1,4 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { type User } from './user.model';
+import { CardComponent } from "../shared/card/card.component";
+
 // import { DUMMY_USERS } from '../dummy-users';
 
 // const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length)
@@ -8,15 +11,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 //   name: string;
 // }
 
-interface User {
-  id: string;
-  avatar: string;
-  name: string;
-}
+// interface User {
+//   id: string;
+//   avatar: string;
+//   name: string;
+// }
 
 @Component({
   selector: 'app-user',
-  imports: [],
+  imports: [CardComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -27,6 +30,7 @@ export class UserComponent {
 
   // 2. Create an object instead of declaring an instance
   @Input({ required: true }) user!: User;
+  @Input({ required: true }) selected!: boolean;
   @Output() select = new EventEmitter<string>();
   // 1.  select = output<string>();
 
@@ -46,12 +50,12 @@ export class UserComponent {
     return 'assets/users/' + this.user.avatar;
   }
 
-  onSelectUser(id : string) {
+  onSelectUser() {
     this.select.emit(this.user.id);
 
     // 1. if using the latter method will be: this.select.emit();
 
     // const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length)
     // this.selectedUser.set(DUMMY_USERS[randomIndex]);
-  };
+  }
 }
